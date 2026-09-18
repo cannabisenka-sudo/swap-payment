@@ -21,4 +21,10 @@ if (user) {
         id.textContent = "ID: " + user.id;
     }
 
+}const username = document.getElementById("user-username");
+
+if (username) {
+    username.textContent = user.username
+        ? "@" + user.username
+        : "Без username";
 }
