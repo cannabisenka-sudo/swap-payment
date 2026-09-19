@@ -1,0 +1,1294 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <title>SwapPayment</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            background: #080c13;
+            color: #ffffff;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 520px;
+            min-height: 100vh;
+            margin: 0 auto;
+            padding-bottom: 90px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 16px 14px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #3281ff;
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .brand-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 7px;
+            padding: 4px 7px;
+            border-radius: 7px;
+            border: 1px solid #075f50;
+            background: #06231f;
+            color: #16d5aa;
+            font-size: 10px;
+            font-weight: 600;
+            vertical-align: middle;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #16d5aa;
+        }
+
+        .balance {
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px solid #263246;
+            background: #111925;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        .content {
+            padding: 0 16px;
+        }
+
+        .notice {
+            margin-bottom: 16px;
+            padding: 12px 14px;
+            border-radius: 13px;
+            background: #06231f;
+            border: 1px solid #095447;
+            color: #1bd3ac;
+            font-size: 13px;
+        }
+
+        .rates {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .rate-card {
+            padding: 15px;
+            border-radius: 15px;
+            background: #111925;
+            border: 1px solid #263246;
+        }
+
+        .coin {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #aeb8ca;
+            font-size: 13px;
+        }
+
+        .coin-icon {
+            width: 23px;
+            height: 23px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #17b897;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .coin-icon.ton {
+            background: #2997ff;
+        }
+
+        .price {
+            margin-top: 8px;
+            font-size: 21px;
+            font-weight: 750;
+        }
+
+        .rub {
+            color: #929fb3;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .exchange-button {
+            width: 100%;
+            margin-top: 16px;
+            padding: 14px;
+            border: 0;
+            border-radius: 13px;
+            background: #3281ff;
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .exchange-button:active {
+            transform: scale(.98);
+        }
+
+        .promo {
+            position: relative;
+            overflow: hidden;
+            margin-top: 16px;
+            padding: 18px;
+            border-radius: 15px;
+            border: 1px solid #28528a;
+            background:
+                linear-gradient(
+                    135deg,
+                    #172d51,
+                    #0e1d35
+                );
+        }
+
+        .promo-title {
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .promo-text {
+            max-width: 270px;
+            margin-top: 6px;
+            color: #aebbd0;
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .promo-button {
+            margin-top: 12px;
+            padding: 8px 13px;
+            border: 0;
+            border-radius: 8px;
+            background: #3281ff;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .section-title {
+            margin: 22px 3px 11px;
+            color: #75849e;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            margin-bottom: 8px;
+            padding: 11px;
+            border-radius: 13px;
+            border: 1px solid #202c3e;
+            background: #111925;
+        }
+
+        .place {
+            width: 22px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .avatar {
+            width: 37px;
+            height: 37px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #263a58;
+        }
+
+        .username {
+            flex: 1;
+            font-size: 13px;
+        }
+
+        .amount {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-title {
+            margin: 12px 0 18px;
+            font-size: 25px;
+            font-weight: 750;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 520px;
+            height: 70px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: rgba(9, 13, 20, .98);
+            border-top: 1px solid #202a39;
+            z-index: 100;
+        }
+
+        .nav-item {
+            border: 0;
+            background: transparent;
+            color: #68778f;
+            font-size: 10px;
+            cursor: pointer;
+        }
+
+        .nav-icon {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 20px;
+        }
+
+        .nav-item.active {
+            color: #ffffff;
+        }
+
+        .big-rate {
+            margin-bottom: 10px;
+            padding: 17px;
+            border-radius: 15px;
+            background: #111925;
+            border: 1px solid #263246;
+        }
+
+        .big-rate-name {
+            color: #aeb8ca;
+            font-size: 14px;
+        }
+
+        .big-rate-price {
+            margin-top: 8px;
+            font-size: 25px;
+            font-weight: 750;
+        }
+
+        .exchange-card {
+            padding: 15px;
+            border-radius: 15px;
+            background: #111925;
+            border: 1px solid #263246;
+        }
+
+        .label {
+            margin-bottom: 9px;
+            color: #7e8da6;
+            font-size: 12px;
+        }
+
+        .exchange-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #2b394f;
+            background: #1a2434;
+            color: white;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 0;
+            outline: none;
+            background: transparent;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: right;
+        }
+
+        .swap {
+            width: 40px;
+            height: 40px;
+            margin: 7px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #182436;
+            border: 1px solid #2c3b52;
+            font-size: 19px;
+            cursor: pointer;
+        }
+
+        .calculation {
+            margin-top: 13px;
+            padding: 14px;
+            border-radius: 12px;
+            background: #0d1826;
+            color: #8e9db3;
+            font-size: 13px;
+        }
+
+        .calculation strong {
+            color: white;
+        }
+
+        .profile {
+            padding: 25px;
+            border-radius: 16px;
+            background: #111925;
+            border: 1px solid #263246;
+            text-align: center;
+        }
+
+        .profile-avatar {
+            width: 72px;
+            height: 72px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            color: white;
+            font-size: 30px;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(59,130,246,.35);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .profile-name {
+            margin-top: 12px;
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .profile-id {
+            margin-top: 5px;
+            color: #77859b;
+            font-size: 12px;
+        }
+
+        @media (max-width: 380px) {
+
+            .brand-name {
+                font-size: 16px;
+            }
+
+            .price {
+                font-size: 18px;
+            }
+
+            .balance {
+                font-size: 11px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- ГЛАВНАЯ -->
+
+    <section id="home" class="page active">
+
+        <div class="header">
+
+            <div class="brand">
+
+                <div class="logo">
+                    ₿
+                </div>
+
+                <div class="brand-name">
+
+                    SwapPayment
+
+                    <span class="status">
+                        <span class="status-dot"></span>
+                        Открыто
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="balance">
+                💳 0,00 ₽
+            </div>
+
+        </div>
+
+
+        <div class="content">
+
+            <div class="notice">
+                Принимаем заявки до 02:00
+            </div>
+
+
+            <div class="rates">
+
+                <div class="rate-card">
+
+                    <div class="coin">
+
+                        <div class="coin-icon">
+                            ₮
+                        </div>
+
+                        USDT
+
+                    </div>
+
+                    <div class="price">
+                        99,00
+                        <span class="rub">₽</span>
+                    </div>
+
+                </div>
+
+
+                <div class="rate-card">
+
+                    <div class="coin">
+
+                        <div class="coin-icon ton">
+                            💎
+                        </div>
+
+                        TON
+
+                    </div>
+
+                    <div class="price">
+                        245,00
+                        <span class="rub">₽</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="exchange-button"
+                onclick="openPage('exchange')"
+            >
+                Обменять
+            </button>
+
+
+            <div class="promo">
+
+                <div class="promo-title">
+                    🎮 Игры
+                </div>
+
+                <div class="promo-text">
+                    Играйте, получайте бонусы
+                    и участвуйте в акциях.
+                </div>
+
+                <button class="promo-button">
+                    Играть
+                </button>
+
+            </div>
+
+
+            <div class="section-title">
+                Топ по обороту
+            </div>
+
+
+            <div class="user-row">
+
+                <div class="place">🥇</div>
+
+                <div class="avatar">👤</div>
+
+                <div class="username">
+                    Пользователь
+                </div>
+
+                <div class="amount">
+                    642 000 ₽
+                </div>
+
+            </div>
+
+
+            <div class="user-row">
+
+                <div class="place">🥈</div>
+
+                <div class="avatar">👤</div>
+
+                <div class="username">
+                    Клиент
+                </div>
+
+                <div class="amount">
+                    381 000 ₽
+                </div>
+
+            </div>
+
+
+            <div class="user-row">
+
+                <div class="place">🥉</div>
+
+                <div class="avatar">👤</div>
+
+                <div class="username">
+                    Trader
+                </div>
+
+                <div class="amount">
+                    210 000 ₽
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- КУРСЫ -->
+
+    <section id="rates" class="page">
+
+        <div class="content">
+
+            <div class="page-title">
+                Курсы
+            </div>
+
+            <div class="big-rate">
+
+                <div class="big-rate-name">
+                    🟢 USDT
+                </div>
+
+                <div class="big-rate-price">
+                    99,00 ₽
+                </div>
+
+            </div>
+
+
+            <div class="big-rate">
+
+                <div class="big-rate-name">
+                    💎 TON
+                </div>
+
+                <div class="big-rate-price">
+                    245,00 ₽
+                </div>
+
+            </div>
+
+
+            <div class="big-rate">
+
+                <div class="big-rate-name">
+                    ₿ BTC
+                </div>
+
+                <div class="big-rate-price">
+                    10 250 000 ₽
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ОБМЕН -->
+
+    <section id="exchange" class="page">
+
+        <div class="content">
+
+            <div class="page-title">
+                Обмен
+            </div>
+
+
+            <div class="exchange-card">
+
+                <div class="label">
+                    Вы отдаёте
+                </div>
+
+
+                <div class="exchange-line">
+
+                    <select
+                        id="from"
+                        onchange="calculate()"
+                    >
+
+                        <option value="USDT">
+                            USDT
+                        </option>
+
+                        <option value="TON">
+                            TON
+                        </option>
+
+                        <option value="BTC">
+                            BTC
+                        </option>
+
+                    </select>
+
+
+                    <input
+                        id="amount"
+                        type="number"
+                        min="0"
+                        step="any"
+                        placeholder="0"
+                        oninput="calculate()"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div
+                class="swap"
+                onclick="swap()"
+            >
+                ⇅
+            </div>
+
+
+            <div class="exchange-card">
+
+                <div class="label">
+                    Вы получаете
+                </div>
+
+
+                <div class="exchange-line">
+
+                    <select id="to">
+                        <option value="RUB">
+                            RUB
+                        </option>
+                    </select>
+
+
+                    <div
+                        id="result"
+                        style="
+                            width:100%;
+                            text-align:right;
+                            font-size:24px;
+                            font-weight:700;
+                        "
+                    >
+                        0 ₽
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="calculation">
+
+                Курс:
+
+                <strong id="rate">
+                    1 USDT = 99 ₽
+                </strong>
+
+                <br><br>
+
+                Комиссия:
+
+                <strong>
+                    0 ₽
+                </strong>
+
+            </div>
+
+
+            <button
+                class="exchange-button"
+                onclick="createOrder()"
+            >
+                Продолжить
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ПРОФИЛЬ -->
+
+    <section id="profile" class="page">
+
+        <div class="content">
+
+            <div class="page-title">
+                Профиль
+            </div>
+
+
+            <div class="profile">
+
+                <div
+                    id="user-avatar"
+                    class="profile-avatar"
+                >
+                    👤
+                </div>
+
+
+                <div
+                    id="user-name"
+                    class="profile-name"
+                >
+                    Пользователь
+                </div>
+
+
+                <div
+                    id="user-username"
+                    class="profile-id"
+                >
+                    @username
+                </div>
+
+
+                <div
+                    id="user-id"
+                    class="profile-id"
+                >
+                    ID
+                </div>
+
+
+                <div class="calculation">
+
+                    Баланс
+
+                    <br><br>
+
+                    <strong>
+                        0,00 ₽
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+<!-- НИЖНЕЕ МЕНЮ -->
+
+<nav class="bottom-nav">
+
+    <button
+        class="nav-item active"
+        onclick="openPage('home', this)"
+    >
+
+        <span class="nav-icon">
+            🏠
+        </span>
+
+        Главная
+
+    </button>
+
+
+    <button
+        class="nav-item"
+        onclick="openPage('rates', this)"
+    >
+
+        <span class="nav-icon">
+            📈
+        </span>
+
+        Курсы
+
+    </button>
+
+
+    <button
+        class="nav-item"
+        onclick="openPage('exchange', this)"
+    >
+
+        <span class="nav-icon">
+            ⇄
+        </span>
+
+        Обмен
+
+    </button>
+
+
+    <button
+        class="nav-item"
+        onclick="openPage('profile', this)"
+    >
+
+        <span class="nav-icon">
+            👤
+        </span>
+
+        Профиль
+
+    </button>
+
+</nav>
+
+
+<!-- СНАЧАЛА TELEGRAM SDK -->
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+
+<script>
+
+    /* ===================== */
+    /* TELEGRAM WEB APP */
+    /* ===================== */
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+        if (
+            typeof Telegram !== "undefined" &&
+            Telegram.WebApp
+        ) {
+
+            Telegram.WebApp.ready();
+
+            Telegram.WebApp.expand();
+
+            loadTelegramUser();
+
+        }
+
+    });
+
+
+    function loadTelegramUser() {
+
+        if (
+            typeof Telegram === "undefined" ||
+            !Telegram.WebApp
+        ) {
+            return;
+        }
+
+
+        const user =
+            Telegram.WebApp.initDataUnsafe &&
+            Telegram.WebApp.initDataUnsafe.user;
+
+
+        if (!user) {
+            return;
+        }
+
+
+        const nameElement =
+            document.getElementById("user-name");
+
+        const usernameElement =
+            document.getElementById("user-username");
+
+        const idElement =
+            document.getElementById("user-id");
+
+        const avatarElement =
+            document.getElementById("user-avatar");
+
+
+        if (user.first_name) {
+
+            nameElement.textContent =
+                user.first_name +
+                (
+                    user.last_name
+                        ? " " + user.last_name
+                        : ""
+                );
+
+        }
+
+
+        if (user.username) {
+
+            usernameElement.textContent =
+                "@" + user.username;
+
+        } else {
+
+            usernameElement.textContent =
+                "Без username";
+
+        }
+
+
+        idElement.textContent =
+            "ID: " + user.id;
+
+
+        if (user.photo_url) {
+
+            avatarElement.textContent = "";
+
+            avatarElement.style.backgroundImage =
+                'url("' + user.photo_url + '")';
+
+        }
+
+    }
+
+
+    /* ===================== */
+    /* НАВИГАЦИЯ */
+    /* ===================== */
+
+    function openPage(pageId, button = null) {
+
+        document
+            .querySelectorAll(".page")
+            .forEach(function (page) {
+
+                page.classList.remove("active");
+
+            });
+
+
+        const targetPage =
+            document.getElementById(pageId);
+
+
+        if (!targetPage) {
+            return;
+        }
+
+
+        targetPage.classList.add("active");
+
+
+        document
+            .querySelectorAll(".nav-item")
+            .forEach(function (item) {
+
+                item.classList.remove("active");
+
+            });
+
+
+        if (button) {
+
+            button.classList.add("active");
+
+        } else {
+
+            document
+                .querySelectorAll(".nav-item")
+                .forEach(function (item) {
+
+                    const onclick =
+                        item.getAttribute("onclick") || "";
+
+                    if (
+                        onclick.includes(
+                            "'" + pageId + "'"
+                        )
+                    ) {
+
+                        item.classList.add("active");
+
+                    }
+
+                });
+
+        }
+
+
+        window.scrollTo(0, 0);
+
+    }
+
+
+    /* ===================== */
+    /* КУРСЫ */
+    /* ===================== */
+
+    const rates = {
+
+        USDT: 99,
+
+        TON: 245,
+
+        BTC: 10250000
+
+    };
+
+
+    /* ===================== */
+    /* РАСЧЁТ */
+    /* ===================== */
+
+    function calculate() {
+
+        const fromElement =
+            document.getElementById("from");
+
+        const amountElement =
+            document.getElementById("amount");
+
+        const resultElement =
+            document.getElementById("result");
+
+        const rateElement =
+            document.getElementById("rate");
+
+
+        const from =
+            fromElement.value;
+
+
+        const amount =
+            Number(amountElement.value) || 0;
+
+
+        const result =
+            amount * rates[from];
+
+
+        resultElement.textContent =
+            result.toLocaleString(
+                "ru-RU",
+                {
+                    maximumFractionDigits: 2
+                }
+            ) + " ₽";
+
+
+        rateElement.textContent =
+            "1 " +
+            from +
+            " = " +
+            rates[from].toLocaleString(
+                "ru-RU"
+            ) +
+            " ₽";
+
+    }
+
+
+    /* ===================== */
+    /* СМЕНА ВАЛЮТЫ */
+    /* ===================== */
+
+    function swap() {
+
+        const from =
+            document.getElementById("from");
+
+
+        if (from.value === "USDT") {
+
+            from.value = "TON";
+
+        } else if (from.value === "TON") {
+
+            from.value = "BTC";
+
+        } else {
+
+            from.value = "USDT";
+
+        }
+
+
+        calculate();
+
+    }
+
+
+    /* ===================== */
+    /* СОЗДАНИЕ ЗАЯВКИ */
+    /* ===================== */
+
+    function createOrder() {
+
+        const amountElement =
+            document.getElementById("amount");
+
+
+        const amount =
+            Number(amountElement.value);
+
+
+        if (!amount || amount <= 0) {
+
+            alert("Введите сумму обмена");
+
+            return;
+
+        }
+
+
+        const from =
+            document.getElementById("from").value;
+
+
+        const result =
+            document.getElementById("result").innerText;
+
+
+        const order = {
+
+            currency: from,
+
+            amount: amount,
+
+            result: result,
+
+            timestamp: Date.now()
+
+        };
+
+
+        /* Проверка Telegram */
+
+        if (
+            typeof Telegram === "undefined" ||
+            !Telegram.WebApp
+        ) {
+
+            alert(
+                "Откройте приложение через Telegram"
+            );
+
+            return;
+
+        }
+
+
+        /* Отправка данных боту */
+
+        Telegram.WebApp.sendData(
+            JSON.stringify(order)
+        );
+
+    }
+
+
+    /* ===================== */
+    /* НАЧАЛЬНЫЙ РАСЧЁТ */
+    /* ===================== */
+
+    calculate();
+
+</script>
+
+
+</body>
+
+</html>
+```
