@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="ru">
 
@@ -398,6 +397,10 @@
             color: white;
         }
 
+        /* ========================= */
+        /* ПРОФИЛЬ */
+        /* ========================= */
+
         .profile {
             padding: 25px;
             border-radius: 16px;
@@ -407,32 +410,77 @@
         }
 
         .profile-avatar {
-            width: 72px;
-            height: 72px;
-            margin: auto;
+            width: 88px;
+            height: 88px;
+            margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: linear-gradient(135deg, #3B82F6, #2563EB);
+            background: linear-gradient(
+                135deg,
+                #3B82F6,
+                #2563EB
+            );
             color: white;
-            font-size: 30px;
+            font-size: 32px;
             font-weight: 700;
-            box-shadow: 0 8px 20px rgba(59,130,246,.35);
+            overflow: hidden;
             background-size: cover;
             background-position: center;
+            box-shadow:
+                0 8px 25px rgba(59,130,246,.35);
         }
 
         .profile-name {
-            margin-top: 12px;
-            font-size: 19px;
+            margin-top: 14px;
+            font-size: 20px;
             font-weight: 700;
+        }
+
+        .profile-username {
+            margin-top: 6px;
+            color: #3281ff;
+            font-size: 14px;
+            font-weight: 600;
         }
 
         .profile-id {
             margin-top: 5px;
             color: #77859b;
             font-size: 12px;
+        }
+
+        .profile-info {
+            margin-top: 20px;
+            padding: 14px;
+            border-radius: 12px;
+            background: #0d1826;
+            text-align: left;
+        }
+
+        .profile-info-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 8px 0;
+            border-bottom: 1px solid #202c3e;
+            font-size: 13px;
+        }
+
+        .profile-info-row:last-child {
+            border-bottom: 0;
+        }
+
+        .profile-info-label {
+            color: #77859b;
+        }
+
+        .profile-info-value {
+            color: white;
+            font-weight: 600;
+            text-align: right;
+            word-break: break-word;
         }
 
         @media (max-width: 380px) {
@@ -642,13 +690,17 @@
                 Курсы
             </div>
 
+
             <div class="big-rate">
 
                 <div class="big-rate-name">
                     🟢 USDT
                 </div>
 
-                <div class="big-rate-price">
+                <div
+                    id="usdt-rate"
+                    class="big-rate-price"
+                >
                     99,00 ₽
                 </div>
 
@@ -661,7 +713,10 @@
                     💎 TON
                 </div>
 
-                <div class="big-rate-price">
+                <div
+                    id="ton-rate"
+                    class="big-rate-price"
+                >
                     245,00 ₽
                 </div>
 
@@ -674,7 +729,10 @@
                     ₿ BTC
                 </div>
 
-                <div class="big-rate-price">
+                <div
+                    id="btc-rate"
+                    class="big-rate-price"
+                >
                     10 250 000 ₽
                 </div>
 
@@ -757,9 +815,11 @@
                 <div class="exchange-line">
 
                     <select id="to">
+
                         <option value="RUB">
                             RUB
                         </option>
+
                     </select>
 
 
@@ -824,6 +884,8 @@
 
             <div class="profile">
 
+                <!-- АВАТАР -->
+
                 <div
                     id="user-avatar"
                     class="profile-avatar"
@@ -831,6 +893,8 @@
                     👤
                 </div>
 
+
+                <!-- ИМЯ -->
 
                 <div
                     id="user-name"
@@ -840,19 +904,77 @@
                 </div>
 
 
+                <!-- USERNAME -->
+
                 <div
                     id="user-username"
-                    class="profile-id"
+                    class="profile-username"
                 >
                     @username
                 </div>
 
 
+                <!-- ID -->
+
                 <div
                     id="user-id"
                     class="profile-id"
                 >
-                    ID
+                    ID: —
+                </div>
+
+
+                <!-- ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ -->
+
+                <div class="profile-info">
+
+                    <div class="profile-info-row">
+
+                        <span class="profile-info-label">
+                            👤 Имя
+                        </span>
+
+                        <span
+                            id="profile-first-name"
+                            class="profile-info-value"
+                        >
+                            —
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-info-row">
+
+                        <span class="profile-info-label">
+                            🔗 Username
+                        </span>
+
+                        <span
+                            id="profile-username-value"
+                            class="profile-info-value"
+                        >
+                            —
+                        </span>
+
+                    </div>
+
+
+                    <div class="profile-info-row">
+
+                        <span class="profile-info-label">
+                            🆔 Telegram ID
+                        </span>
+
+                        <span
+                            id="profile-id-value"
+                            class="profile-info-value"
+                        >
+                            —
+                        </span>
+
+                    </div>
+
                 </div>
 
 
@@ -940,23 +1062,37 @@
 </nav>
 
 
-<!-- СНАЧАЛА TELEGRAM SDK -->
+<!-- TELEGRAM SDK -->
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
 
 <script>
 
-    /* ===================== */
-    /* TELEGRAM WEB APP */
-    /* ===================== */
+    /* ========================= */
+    /* TELEGRAM */
+    /* ========================= */
 
-    document.addEventListener("DOMContentLoaded", function () {
+    let telegramUser = null;
 
-        if (
-            typeof Telegram !== "undefined" &&
-            Telegram.WebApp
-        ) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            if (
+                typeof Telegram === "undefined" ||
+                !Telegram.WebApp
+            ) {
+
+                console.log(
+                    "Telegram WebApp недоступен"
+                );
+
+                return;
+
+            }
+
 
             Telegram.WebApp.ready();
 
@@ -965,9 +1101,12 @@
             loadTelegramUser();
 
         }
+    );
 
-    });
 
+    /* ========================= */
+    /* ПОЛЬЗОВАТЕЛЬ TELEGRAM */
+    /* ========================= */
 
     function loadTelegramUser() {
 
@@ -979,88 +1118,199 @@
         }
 
 
-        const user =
-            Telegram.WebApp.initDataUnsafe &&
-            Telegram.WebApp.initDataUnsafe.user;
+        telegramUser =
+            Telegram.WebApp.initDataUnsafe?.user;
 
 
-        if (!user) {
+        if (!telegramUser) {
+
+            console.log(
+                "Данные пользователя Telegram отсутствуют"
+            );
+
             return;
+
         }
 
+
+        const firstName =
+            telegramUser.first_name || "";
+
+        const lastName =
+            telegramUser.last_name || "";
+
+        const fullName =
+            (
+                firstName +
+                " " +
+                lastName
+            ).trim();
+
+
+        const username =
+            telegramUser.username
+                ? "@" + telegramUser.username
+                : "Без username";
+
+
+        const telegramId =
+            telegramUser.id
+                ? String(telegramUser.id)
+                : "—";
+
+
+        /* ========================= */
+        /* ОСНОВНОЙ ПРОФИЛЬ */
+        /* ========================= */
 
         const nameElement =
-            document.getElementById("user-name");
+            document.getElementById(
+                "user-name"
+            );
+
 
         const usernameElement =
-            document.getElementById("user-username");
+            document.getElementById(
+                "user-username"
+            );
+
 
         const idElement =
-            document.getElementById("user-id");
+            document.getElementById(
+                "user-id"
+            );
+
 
         const avatarElement =
-            document.getElementById("user-avatar");
+            document.getElementById(
+                "user-avatar"
+            );
 
 
-        if (user.first_name) {
+        if (nameElement) {
 
             nameElement.textContent =
-                user.first_name +
-                (
-                    user.last_name
-                        ? " " + user.last_name
-                        : ""
-                );
+                fullName || "Пользователь";
 
         }
 
 
-        if (user.username) {
+        if (usernameElement) {
 
             usernameElement.textContent =
-                "@" + user.username;
-
-        } else {
-
-            usernameElement.textContent =
-                "Без username";
+                username;
 
         }
 
 
-        idElement.textContent =
-            "ID: " + user.id;
+        if (idElement) {
+
+            idElement.textContent =
+                "ID: " + telegramId;
+
+        }
 
 
-        if (user.photo_url) {
+        /* ========================= */
+        /* ДЕТАЛИ ПРОФИЛЯ */
+        /* ========================= */
+
+        const firstNameElement =
+            document.getElementById(
+                "profile-first-name"
+            );
+
+
+        const usernameValueElement =
+            document.getElementById(
+                "profile-username-value"
+            );
+
+
+        const idValueElement =
+            document.getElementById(
+                "profile-id-value"
+            );
+
+
+        if (firstNameElement) {
+
+            firstNameElement.textContent =
+                fullName || "Пользователь";
+
+        }
+
+
+        if (usernameValueElement) {
+
+            usernameValueElement.textContent =
+                username;
+
+        }
+
+
+        if (idValueElement) {
+
+            idValueElement.textContent =
+                telegramId;
+
+        }
+
+
+        /* ========================= */
+        /* АВАТАР */
+        /* ========================= */
+
+        if (
+            telegramUser.photo_url &&
+            avatarElement
+        ) {
 
             avatarElement.textContent = "";
 
             avatarElement.style.backgroundImage =
-                'url("' + user.photo_url + '")';
+                `url("${telegramUser.photo_url}")`;
+
+        } else if (avatarElement) {
+
+            const firstLetter =
+                (
+                    firstName ||
+                    "П"
+                ).charAt(0).toUpperCase();
+
+            avatarElement.textContent =
+                firstLetter;
 
         }
 
     }
 
 
-    /* ===================== */
+    /* ========================= */
     /* НАВИГАЦИЯ */
-    /* ===================== */
+    /* ========================= */
 
-    function openPage(pageId, button = null) {
+    function openPage(
+        pageId,
+        button = null
+    ) {
 
         document
             .querySelectorAll(".page")
             .forEach(function (page) {
 
-                page.classList.remove("active");
+                page.classList.remove(
+                    "active"
+                );
 
             });
 
 
         const targetPage =
-            document.getElementById(pageId);
+            document.getElementById(
+                pageId
+            );
 
 
         if (!targetPage) {
@@ -1068,21 +1318,27 @@
         }
 
 
-        targetPage.classList.add("active");
+        targetPage.classList.add(
+            "active"
+        );
 
 
         document
             .querySelectorAll(".nav-item")
             .forEach(function (item) {
 
-                item.classList.remove("active");
+                item.classList.remove(
+                    "active"
+                );
 
             });
 
 
         if (button) {
 
-            button.classList.add("active");
+            button.classList.add(
+                "active"
+            );
 
         } else {
 
@@ -1091,15 +1347,22 @@
                 .forEach(function (item) {
 
                     const onclick =
-                        item.getAttribute("onclick") || "";
+                        item.getAttribute(
+                            "onclick"
+                        ) || "";
+
 
                     if (
                         onclick.includes(
-                            "'" + pageId + "'"
+                            "'" +
+                            pageId +
+                            "'"
                         )
                     ) {
 
-                        item.classList.add("active");
+                        item.classList.add(
+                            "active"
+                        );
 
                     }
 
@@ -1108,14 +1371,17 @@
         }
 
 
-        window.scrollTo(0, 0);
+        window.scrollTo(
+            0,
+            0
+        );
 
     }
 
 
-    /* ===================== */
+    /* ========================= */
     /* КУРСЫ */
-    /* ===================== */
+    /* ========================= */
 
     const rates = {
 
@@ -1128,23 +1394,34 @@
     };
 
 
-    /* ===================== */
+    /* ========================= */
     /* РАСЧЁТ */
-    /* ===================== */
+    /* ========================= */
 
     function calculate() {
 
         const fromElement =
-            document.getElementById("from");
+            document.getElementById(
+                "from"
+            );
+
 
         const amountElement =
-            document.getElementById("amount");
+            document.getElementById(
+                "amount"
+            );
+
 
         const resultElement =
-            document.getElementById("result");
+            document.getElementById(
+                "result"
+            );
+
 
         const rateElement =
-            document.getElementById("rate");
+            document.getElementById(
+                "rate"
+            );
 
 
         const from =
@@ -1152,7 +1429,9 @@
 
 
         const amount =
-            Number(amountElement.value) || 0;
+            Number(
+                amountElement.value
+            ) || 0;
 
 
         const result =
@@ -1180,21 +1459,27 @@
     }
 
 
-    /* ===================== */
+    /* ========================= */
     /* СМЕНА ВАЛЮТЫ */
-    /* ===================== */
+    /* ========================= */
 
     function swap() {
 
         const from =
-            document.getElementById("from");
+            document.getElementById(
+                "from"
+            );
 
 
-        if (from.value === "USDT") {
+        if (
+            from.value === "USDT"
+        ) {
 
             from.value = "TON";
 
-        } else if (from.value === "TON") {
+        } else if (
+            from.value === "TON"
+        ) {
 
             from.value = "BTC";
 
@@ -1210,23 +1495,32 @@
     }
 
 
-    /* ===================== */
+    /* ========================= */
     /* СОЗДАНИЕ ЗАЯВКИ */
-    /* ===================== */
+    /* ========================= */
 
     function createOrder() {
 
         const amountElement =
-            document.getElementById("amount");
+            document.getElementById(
+                "amount"
+            );
 
 
         const amount =
-            Number(amountElement.value);
+            Number(
+                amountElement.value
+            );
 
 
-        if (!amount || amount <= 0) {
+        if (
+            !amount ||
+            amount <= 0
+        ) {
 
-            alert("Введите сумму обмена");
+            alert(
+                "Введите сумму обмена"
+            );
 
             return;
 
@@ -1234,11 +1528,15 @@
 
 
         const from =
-            document.getElementById("from").value;
+            document.getElementById(
+                "from"
+            ).value;
 
 
         const result =
-            document.getElementById("result").innerText;
+            document.getElementById(
+                "result"
+            ).innerText;
 
 
         const order = {
@@ -1254,8 +1552,6 @@
         };
 
 
-        /* Проверка Telegram */
-
         if (
             typeof Telegram === "undefined" ||
             !Telegram.WebApp
@@ -1270,8 +1566,6 @@
         }
 
 
-        /* Отправка данных боту */
-
         Telegram.WebApp.sendData(
             JSON.stringify(order)
         );
@@ -1279,9 +1573,9 @@
     }
 
 
-    /* ===================== */
+    /* ========================= */
     /* НАЧАЛЬНЫЙ РАСЧЁТ */
-    /* ===================== */
+    /* ========================= */
 
     calculate();
 
@@ -1291,4 +1585,3 @@
 </body>
 
 </html>
-```
