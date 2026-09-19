@@ -884,8 +884,6 @@
 
             <div class="profile">
 
-                <!-- АВАТАР -->
-
                 <div
                     id="user-avatar"
                     class="profile-avatar"
@@ -893,8 +891,6 @@
                     👤
                 </div>
 
-
-                <!-- ИМЯ -->
 
                 <div
                     id="user-name"
@@ -904,8 +900,6 @@
                 </div>
 
 
-                <!-- USERNAME -->
-
                 <div
                     id="user-username"
                     class="profile-username"
@@ -914,8 +908,6 @@
                 </div>
 
 
-                <!-- ID -->
-
                 <div
                     id="user-id"
                     class="profile-id"
@@ -923,8 +915,6 @@
                     ID: —
                 </div>
 
-
-                <!-- ДОПОЛНИТЕЛЬНАЯ ИНФОРМАЦИЯ -->
 
                 <div class="profile-info">
 
@@ -1076,36 +1066,8 @@
     let telegramUser = null;
 
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        function () {
-
-            if (
-                typeof Telegram === "undefined" ||
-                !Telegram.WebApp
-            ) {
-
-                console.log(
-                    "Telegram WebApp недоступен"
-                );
-
-                return;
-
-            }
-
-
-            Telegram.WebApp.ready();
-
-            Telegram.WebApp.expand();
-
-            loadTelegramUser();
-
-        }
-    );
-
-
     /* ========================= */
-    /* ПОЛЬЗОВАТЕЛЬ TELEGRAM */
+    /* ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ */
     /* ========================= */
 
     function loadTelegramUser() {
@@ -1114,30 +1076,90 @@
             typeof Telegram === "undefined" ||
             !Telegram.WebApp
         ) {
-            return;
-        }
-
-
-        telegramUser =
-            Telegram.WebApp.initDataUnsafe?.user;
-
-
-        if (!telegramUser) {
 
             console.log(
-                "Данные пользователя Telegram отсутствуют"
+                "Telegram WebApp недоступен"
             );
 
             return;
-
         }
 
+
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+
+
+        telegramUser =
+            Telegram.WebApp.initDataUnsafe &&
+            Telegram.WebApp.initDataUnsafe.user;
+
+
+        console.log(
+            "Telegram user:",
+            telegramUser
+        );
+
+
+        /*
+         * Если Telegram не передал пользователя,
+         * оставляем понятные значения.
+         */
+
+        if (!telegramUser) {
+
+            const nameElement =
+                document.getElementById(
+                    "user-name"
+                );
+
+            const usernameElement =
+                document.getElementById(
+                    "user-username"
+                );
+
+            const idElement =
+                document.getElementById(
+                    "user-id"
+                );
+
+
+            if (nameElement) {
+                nameElement.textContent =
+                    "Пользователь";
+            }
+
+            if (usernameElement) {
+                usernameElement.textContent =
+                    "Данные недоступны";
+            }
+
+            if (idElement) {
+                idElement.textContent =
+                    "ID: —";
+            }
+
+
+            console.log(
+                "Telegram не передал данные пользователя"
+            );
+
+            return;
+        }
+
+
+        /* ИМЯ */
 
         const firstName =
             telegramUser.first_name || "";
 
+
+        /* ФАМИЛИЯ */
+
         const lastName =
             telegramUser.last_name || "";
+
+
+        /* ПОЛНОЕ ИМЯ */
 
         const fullName =
             (
@@ -1147,11 +1169,15 @@
             ).trim();
 
 
+        /* USERNAME */
+
         const username =
             telegramUser.username
                 ? "@" + telegramUser.username
                 : "Без username";
 
+
+        /* TELEGRAM ID */
 
         const telegramId =
             telegramUser.id
@@ -1212,7 +1238,7 @@
 
 
         /* ========================= */
-        /* ДЕТАЛИ ПРОФИЛЯ */
+        /* ДОПОЛНИТЕЛЬНЫЕ ДАННЫЕ */
         /* ========================= */
 
         const firstNameElement =
@@ -1262,29 +1288,68 @@
         /* ========================= */
 
         if (
-            telegramUser.photo_url &&
-            avatarElement
+            avatarElement &&
+            telegramUser.photo_url
         ) {
 
-            avatarElement.textContent = "";
+            avatarElement.textContent =
+                "";
 
             avatarElement.style.backgroundImage =
-                `url("${telegramUser.photo_url}")`;
+                'url("' +
+                telegramUser.photo_url +
+                '")';
 
-        } else if (avatarElement) {
+        }
+
+
+        /*
+         * Если фотографии нет,
+         * показываем первую букву имени.
+         */
+
+        else if (avatarElement) {
 
             const firstLetter =
                 (
                     firstName ||
                     "П"
-                ).charAt(0).toUpperCase();
+                )
+                .charAt(0)
+                .toUpperCase();
+
 
             avatarElement.textContent =
                 firstLetter;
 
         }
 
+
+        console.log(
+            "Профиль загружен:",
+            {
+                name: fullName,
+                username: username,
+                id: telegramId,
+                photo: telegramUser.photo_url || null
+            }
+        );
+
     }
+
+
+    /* ========================= */
+    /* ЗАПУСК TELEGRAM */
+    /* ========================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            loadTelegramUser();
+
+        }
+    );
 
 
     /* ========================= */
@@ -1424,6 +1489,16 @@
             );
 
 
+        if (
+            !fromElement ||
+            !amountElement ||
+            !resultElement ||
+            !rateElement
+        ) {
+            return;
+        }
+
+
         const from =
             fromElement.value;
 
@@ -1471,19 +1546,28 @@
             );
 
 
+        if (!from) {
+            return;
+        }
+
+
         if (
             from.value === "USDT"
         ) {
 
             from.value = "TON";
 
-        } else if (
+        }
+
+        else if (
             from.value === "TON"
         ) {
 
             from.value = "BTC";
 
-        } else {
+        }
+
+        else {
 
             from.value = "USDT";
 
@@ -1505,6 +1589,11 @@
             document.getElementById(
                 "amount"
             );
+
+
+        if (!amountElement) {
+            return;
+        }
 
 
         const amount =
